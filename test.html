@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    <input type="checkbox" id="checkbox" v-model="true">
+    <label for="checkbox">{{ checked }}</label>
+
+</div>
+<script type="text/javascript" src="js/vue.js"></script>
+<script type="text/javascript" src="js/vue-resource.js"></script>
+<script type="text/javascript">
+    new Vue({
+        el: "#app",
+        data: {
+            checked: true
+        }
+    });
+</script>
+</body>
+</html>

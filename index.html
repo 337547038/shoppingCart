@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style type="text/css">
+        body, div, ul, li, p, img, input, a{ margin: 0; padding: 0; }
+        a{ text-decoration: none; }
+        ul, li{ list-style: none }
+        .item{ border-bottom: 1px solid #ddd; }
+        .item:after{ content: ''; display: block; clear: both; visibility: hidden }
+        .item div{ float: left; width: 150px; text-align: center; overflow: hidden; }
+        .img img{ width: 100px; height: 100px }
+        .mask{ position: fixed; left: 0; top: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, .5); z-index: 50; }
+        .layer{ position: absolute; left: 50%; top: 50%; width: 500px; height: 300px; margin-left: -250px; margin-top: -150px; z-index: 51; text-align: center; box-shadow: 0 0 5px #000; background: #fff; display: none }
+        .layer.active{ display: block }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="list">
+        <div class="item" v-for="(item,index) in productList">
+            <div><input type="checkbox" v-model="item.checked" @click="selectProduct(item)"></div>
+            <div class="img"><img :src="item.productImage" alt=""></div>
+            <div class="text">
+                <p v-text="item.productName"></p>
+                <p>赠送</p>
+                <ul>
+                    <li v-for="part in item.parts" v-text="part.partsName"></li>
+                </ul>
+            </div>
+            <div class="price" v-html="formatMoney2(item.productPrice)"></div>
+            <div class="num">
+                <a href="javascript:;" class="less" @click="changeMoney(item,-1)">--</a>
+                <input type="text" v-model="item.productQuentity" @input="inputInput">
+                <a href="javascript:;" class="add" @click="changeMoney(item,1)">++</a>
+            </div>
+            <div class="total">{{item.productQuentity*item.productPrice | formatMoney}}</div>
+            <div class="control">
+                <a href="javascript:" class="del" @click="delConfirm(index)">删</a>
+            </div>
+        </div>
+        <div class="other">
+            <label for="all"><input type="checkbox" id="all" @click="checkAll(true)">全选</label>
+            <label for="all2"><input type="checkbox" id="all2" @click="checkAll(false)">取消</label>
+        </div>
+        <div class="totalPrice">
+            总计：{{totalPrice | formatMoney}}
+        </div>
+    </div>
+    <div class="layer" :class="{'active':delFlag}">
+        <a href="javascript:;" @click="delFlag=false">X</a>
+        <p>del？</p>
+        <div class="button">
+            <input type="button" value="yes" @click="delProduct">
+            <input type="button" value="no" @click="delFlag=false">
+        </div>
+    </div>
+    <div class="mask" v-if="delFlag"></div>
+</div>
+<script type="text/javascript" src="js/vue.js"></script>
+<script type="text/javascript" src="js/vue-resource.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+</body>
+</html>
